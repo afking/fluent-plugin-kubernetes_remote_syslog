@@ -7,7 +7,7 @@ class RemoteSyslogOutputTest < Test::Unit::TestCase
   end
 
   def create_driver(conf = CONFIG)
-    Fluent::Test::Driver::Output.new(Fluent::Plugin::RemoteSyslogOutput).configure(conf)
+    Fluent::Test::Driver::Output.new(Fluent::RemoteSyslogOutput).configure(conf)
   end
 
   def test_configure
@@ -73,7 +73,7 @@ class RemoteSyslogOutputTest < Test::Unit::TestCase
       mock(klass).connect
     end
 
-    mock.proxy(RemoteSyslogSender::TcpSender).new("example.com", 5566, whinyerrors: true, program: "minitest", tls: false, packet_size: 1024, timeout: nil, timeout_exception: false, keep_alive: false, keep_alive_cnt: nil, keep_alive_idle: nil, keep_alive_intvl: nil) do |sender|
+    mock.proxy(RemoteSyslogSender::TcpSender).new("example.com", 5566, tls: false, whinyerrors: true, program: "minitest", packet_size: 1024, timeout: nil, timeout_exception: false, keep_alive: false, keep_alive_cnt: nil, keep_alive_idle: nil, keep_alive_intvl: nil) do |sender|
       mock(sender).transmit("foo",  facility: "user", severity: "debug", program: "minitest", hostname: "foo.com")
     end
 
